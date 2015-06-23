@@ -30,7 +30,6 @@ package gocql
 
 import (
 	"bytes"
-	"code.google.com/p/snappy-go/snappy"
 	"database/sql"
 	"database/sql/driver"
 	"encoding/binary"
@@ -39,6 +38,8 @@ import (
 	"math/rand"
 	"net"
 	"strings"
+
+	"code.google.com/p/snappy-go/snappy"
 )
 
 const (

@@ -7,9 +7,10 @@ package gocql
 import (
 	"bytes"
 	"database/sql"
-	"github.com/tux21b/gocql/uuid"
 	"testing"
 	"time"
+
+	"github.com/hkeide/gocqldriver/uuid"
 )
 
 func TestSimple(t *testing.T) {
