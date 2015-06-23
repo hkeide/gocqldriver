@@ -99,10 +99,7 @@ func TestInvalidUUIDLength(t *testing.T) {
 
 func TestRandomUUID(t *testing.T) {
 	for i := 0; i < 20; i++ {
-		uuid, err := RandomUUID()
-		if err != nil {
-			t.Errorf("RandomUUID: %v", err)
-		}
+		uuid := RandomUUID()
 		if variant := uuid.Variant(); variant != VariantIETF {
 			t.Errorf("wrong variant. expected %d got %d", VariantIETF, variant)
 		}
@@ -113,10 +110,7 @@ func TestRandomUUID(t *testing.T) {
 }
 
 func TestRandomUUIDInvalidAPICalls(t *testing.T) {
-	uuid, err := RandomUUID()
-	if err != nil {
-		t.Fatalf("unexpected error %v", err)
-	}
+	uuid := RandomUUID()
 
 	if node := uuid.Node(); node != nil {
 		t.Fatalf("expected nil, got %v", node)
