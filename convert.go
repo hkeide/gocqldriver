@@ -63,7 +63,11 @@ func decode(b []byte, t uint16) driver.Value {
 		nsec := (t - sec*1000) * 1000000
 		return time.Unix(sec, nsec)
 	case typeUUID, typeTimeUUID:
-		return uuid.FromBytes(b)
+		u, err := uuid.UUIDFromBytes(b)
+		if err != nil {
+			panic(err)
+		}
+		return u
 	default:
 		panic("unsupported type")
 	}
@@ -231,7 +235,11 @@ func encUUID(v interface{}) (driver.Value, error) {
 			return nil, err
 		}
 	case []byte:
-		u = uuid.FromBytes(v)
+		var err error
+		u, err = uuid.UUIDFromBytes(v)
+		if err != nil {
+			return nil, err
+		}
 	case uuid.UUID:
 		u = v
 	default:
