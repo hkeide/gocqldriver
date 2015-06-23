@@ -10,6 +10,7 @@ package uuid
 
 import (
 	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
@@ -158,7 +159,6 @@ func (u UUID) String() string {
 	r[18] = '-'
 	r[23] = '-'
 	return string(r)
-
 }
 
 // Bytes returns the raw byte slice for this UUID. A UUID is always 128 bits
@@ -221,9 +221,12 @@ func (u UUID) Time() time.Time {
 	return time.Unix(sec+timeBase, nsec).UTC()
 }
 
-// Marshaling for JSON
 func (u UUID) MarshalJSON() ([]byte, error) {
-	return []byte(`"` + u.String() + `"`), nil
+	r := make([]byte, 32+2)
+	r[0] = '"'
+	r[33] = '"'
+	hex.Encode(r[1:], u[:])
+	return r, nil
 }
 
 // Unmarshaling for JSON

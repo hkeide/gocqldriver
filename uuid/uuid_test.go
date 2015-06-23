@@ -62,7 +62,7 @@ func TestPredefinedUUID(t *testing.T) {
 		if err != nil {
 			t.Errorf("MarshalJSON #%d: %v", i, err)
 		}
-		expectedJson := `"` + strings.ToLower(testsUUID[i].input) + `"`
+		expectedJson := `"` + strings.Replace(strings.ToLower(testsUUID[i].input), "-", "", -1) + `"`
 		if string(json) != expectedJson {
 			t.Errorf("MarshalJSON #%d: expected %v got %v", i, expectedJson, string(json))
 		}
@@ -75,6 +75,14 @@ func TestPredefinedUUID(t *testing.T) {
 		if unmarshaled != uuid {
 			t.Errorf("UnmarshalJSON #%d: expected %v got %v", i, uuid, unmarshaled)
 		}
+	}
+}
+
+func BenchmarkJSONMarshal(b *testing.B) {
+	u := RandomUUID()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		u.MarshalJSON()
 	}
 }
 
